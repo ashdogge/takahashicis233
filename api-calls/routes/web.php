@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Models\TvMazeAPI;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -17,4 +18,14 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
+
+Route::get('/episodes', function () {
+    $showNumber = intval(request()->query('showNumber'));
+    //Default to 1 if shownumber is invalid
+    $showNumber = $showNumber < 1 ? 1 : $showNumber;
+    $episodes = TvMazeAPI::fetch($showNumber);
+    $showName = TvMazeAPI::fetchShowName($showNumber);
+    return view('episodes/index', ['episodes' => $episodes, 'showName' => $showName]);
+
+});
