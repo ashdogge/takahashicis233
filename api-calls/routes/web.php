@@ -3,7 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Models\TvMazeAPI;
 use Illuminate\Support\Facades\Route;
-
+use App\Models\Episode;
 Route::get('/', function () {
     return view('welcome');
 });
@@ -20,12 +20,23 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__ . '/auth.php';
 
-Route::get('/episodes', function () {
+Route::get('/load-episodes', function () {
     $showNumber = intval(request()->query('showNumber'));
     //Default to 1 if shownumber is invalid
     $showNumber = $showNumber < 1 ? 1 : $showNumber;
     $episodes = TvMazeAPI::fetch($showNumber);
     $showName = TvMazeAPI::fetchShowName($showNumber);
     return view('episodes/index', ['episodes' => $episodes, 'showName' => $showName]);
+
+});
+
+Route::get('/view-episodes', function () {
+    $showNumber = intval(request()->query('showNumber'));
+    $showNumber = $showNumber < 1 ? 1 : $showNumber;
+    // Eloquent Model database lookup that loads all the episodes from 
+    // the database where show number field is equal to the showNumber value from the query string.
+    $episodes = Episode::where('show_number', $showNumber)->get();
+    $showName = TvMazeAPI::fetchShowName(showNumber: $showNumber);
+    return view('episodes/index', ['episodes' => $episodes, 'showName' => $showName, 'showNumber' => $showNumber]);
 
 });
