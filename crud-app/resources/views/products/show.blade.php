@@ -1,18 +1,19 @@
-<!DOCTYPE html>
-<html>
 
-<head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>{{$product->name}}</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
-    <script src='main.js'></script>
-</head>
+<!-- Use the layout, pass in title and content -->
+@extends("layouts.products")
+@section("title", 'Fruit')
+@section("content")
+<h1 class="display-1 text-center fw-bold">{{$product->name}}</h1>
+<div class="d-flex flex-fill justify-content-center">
 
-<body>
-    <h1>{{$product->name}} {{$product->price}}{{$product->description}}{{$product->item_number}} {{$product->img}}</h1>
-    <a href="/products">Back to index</a>
-</body>
+    <div class="card" style= "width:20%">
+    <img src="{{$product->image}}" class="card-img-top" alt="...">
+    <div class="card-body">
+        <h4 class="card-title text-center">{{$product->name}} ${{$product->price}}</h4>
+        <p class="card-text text-center fw-light">{{$product->description}}</p>
+    </div>
+    </div>
+</div>
 
-</html>
+
+@endsection

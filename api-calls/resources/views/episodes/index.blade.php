@@ -29,7 +29,6 @@
                     </div>
                 </div>
                 <!-- /Episode card -->
-                <!-- Specify condition if no episodes are found -->
             @empty
                 <div class="text-center w-100">
                     <h4 class="text-muted">No episodes found for this show.</h4>

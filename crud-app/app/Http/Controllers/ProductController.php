@@ -20,7 +20,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        echo "This will be a page for creating a new Product object";
+        // This will be a page for creating a new Product object
         return;
     }
 

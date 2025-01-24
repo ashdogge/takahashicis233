@@ -1,26 +1,21 @@
-<!DOCTYPE html>
-<html>
+<!-- Use the layout, pass in title and content -->
+@extends('layouts.products')
+@section('title', 'All Products')
+@section('content')
 
-<head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Products</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
-    <script src='main.js'></script>
-</head>
-
-<body>
-    <h1>Products</h1>
+<!-- Loop through products passed by controller, displaying each-->
+<ul class="container-fluid d-flex flex-wrap justify-content-evenly">
     @foreach($products as $product)
-        <ul>
-            <img>
-            <a href="/products/{{$product->id}}">{{$product->name}} ${{$product->price}}</a>
-            <p>Item Number: {{$product->item_number}}</p>
-            <img height="200" width="200" src="{{$product->image}}"></img>
-            </li>
-        </ul>
-    @endforeach
-</body>
 
-</html>
+        <a class="card link-secondary" href="/products/{{$product->id}}">
+            <img class="" width="200" height="200" src="{{$product->image}}">
+            <div class="card-body">
+                <h5 class=" fw-bolder lead text-center card-title" href="/products/{{$product->id}}">{{$product->name}} ${{$product->price}}</h5>
+                <p class="card-text text-center fw-light">Item Number: {{$product->item_number}}</p>
+            </div>
+        </a>
+
+
+    @endforeach
+</ul>
+@endsection
