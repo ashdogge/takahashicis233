@@ -71,12 +71,11 @@ class AdminProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //Product lookup, validate, update, and redirect, handle errors
-        $product = Product::findOrFail($product); // Throws 404 if not found
-
         $product->update($this->validateData($request));
 
+        return redirect()->route('admin.products.index')->with('success', 'Product updated successfully!');
     }
+
 
     /**
      * Remove the specified resource from storage.
