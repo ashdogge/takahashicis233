@@ -22,8 +22,8 @@ class AdminProductController extends Controller
      */
     public function create()
     {
-        $products = Product::all();
-        return view("admin.products.create");
+        $product = new Product();
+        return view("admin.products.create", ['product' => $product]);
     }
 
     /**
@@ -35,18 +35,12 @@ class AdminProductController extends Controller
         //create a new product with valid data
 
         //If invalid, redirect back to the form with errors
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'price' => 'required|string',
-            'description' => 'nullable|string',
-            'item_number' => 'required|int',
-            'image' => 'nullable|url',
-        ]);
+
 
         //if valid
         //create new product
 
-        Product::create($validatedData);
+        Product::create($this->validateData($request));
 
         //return to a view
 
@@ -67,17 +61,21 @@ class AdminProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Product $product)
     {
-        //
+        return view('admin.products.edit', ['product' => $product]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Product $product)
     {
-        //
+        //Product lookup, validate, update, and redirect, handle errors
+        $product = Product::findOrFail($product); // Throws 404 if not found
+
+        $product->update($this->validateData($request));
+
     }
 
     /**
@@ -85,6 +83,21 @@ class AdminProductController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $product = Product::find($id);
+        $product->delete();
+
+        return redirect()->route("admin.products.index")->with("success", "Product destroyed successfully.");
     }
+
+    private function validateData(Request $request)
+    {
+        return $request->validate([
+            'name' => 'required|string|max:255',
+            'price' => 'required|string',
+            'description' => 'nullable|string',
+            'item_number' => 'required|int',
+            'image' => 'nullable|url',
+        ]);
+    }
+
 }

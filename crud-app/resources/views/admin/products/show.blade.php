@@ -1,5 +1,5 @@
 <!-- Use the layout, pass in title and content -->
-@extends("layouts.products")
+@extends("layouts.admin")
 @section("title", 'Admin Fruit')
 @section("content")
 <h1 class="display-1 text-center fw-bold">{{$product->name}}</h1>
