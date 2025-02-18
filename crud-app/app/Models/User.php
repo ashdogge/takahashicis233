@@ -6,7 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-
+use App\Enums\Role;
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role'
     ];
 
     /**
@@ -31,6 +32,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'role' => Role::class, 
     ];
 
     /**
@@ -38,6 +40,7 @@ class User extends Authenticatable
      *
      * @return array<string, string>
      */
+
     protected function casts(): array
     {
         return [
