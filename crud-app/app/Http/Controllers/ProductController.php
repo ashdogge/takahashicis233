@@ -26,12 +26,9 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id, Request $request)
+    public function show(string $id)
     {
-        if ($request->user()->cannot('manage', Product::class)) {
-            return redirect()->route('products.index')->with('error', "You don't have permission to delete.");
-        }
-        ;
+
         $product = Product::find($id);
         return view("products.show", compact("product"));
 
