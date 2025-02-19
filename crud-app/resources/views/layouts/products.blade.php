@@ -20,6 +20,26 @@
         <h1 class="display-1 fw-bold">Squished-Fruit.com</h1>
         <h5 class="lead fw-bold">Your home for squished images of fruit.</h5>
     </a>
+    <!-- Display user information and logout button if user is logged in-->
+    @auth
+    <div class="d-flex justify-content-center align-items-center mt-3">
+        <p class="mb-0 text-white me-3 fw-bold">
+            Logged in as: {{ auth()->user()->email }} ({{ auth()->user()->role ?? 'User' }})
+        </p>
+        <form action="{{ route('logout') }}" method="POST" class="d-inline">
+            @csrf
+            <button type="submit" class="btn btn-light btn-sm">Logout</button>
+        </form>
+    </div>
+    @endauth
+
+        <!-- If user is not logged in- only necessary on public page, not admin-->
+        @guest
+    <div class="mt-3">
+        <a href="{{ route('login') }}" class="btn btn-light btn-sm">Login</a>
+    </div>
+    @endguest
+
 </header>
 <body>
     <h2 class="display-3 text-center">@yield('title')</h2>

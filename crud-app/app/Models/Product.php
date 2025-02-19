@@ -17,4 +17,14 @@ class Product extends Model
         "image",
     ];
 
+    // $products = Product::paginate(12);
+    // $search = request('search');
+    // $products = Product::where('name', 'like', "%$search%")
+    // ->orWhere('item_number', $search)
+    // ->paginate(12);
+    public static function search($search)
+    {
+        return self::where('name', 'like', "%$search%")
+            ->orWhere('item_number', $search);
+    }
 }

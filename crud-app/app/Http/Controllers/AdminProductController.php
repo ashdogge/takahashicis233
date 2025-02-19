@@ -13,9 +13,18 @@ class AdminProductController extends Controller
      */
     public function index()
     {
-        $products = Product::all();
-        return view("admin.products.index", compact("products"));
+        $products = Product::search(request('search'))->paginate(12);
+        return view('admin.products.index', ['products' => $products]);
+
     }
+
+    // "name",
+    // "price",
+    // "description",
+    // "item_number",
+    // "image",
+
+
 
     /**
      * Show the form for creating a new resource.
