@@ -10,12 +10,15 @@ class ProductController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
-
-        $products = Product::paginate(12);
-
-
-        return view("products.index", compact("products"));
+    { {
+            if (!auth()->check()) {
+                // Load unpaginated for guest
+                $products = Product::all();
+            } else {
+                $products = Product::search(request('search'))->paginate(32);
+            }
+        }
+        return view("products.index", ['products' => $products]);
     }
 
 

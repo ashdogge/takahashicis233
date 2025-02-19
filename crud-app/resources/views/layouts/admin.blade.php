@@ -33,7 +33,12 @@
             </form>
         </div>
     @endauth
-
+    <!-- Display errors -->
+    @if(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
 </header>
 
 <body>

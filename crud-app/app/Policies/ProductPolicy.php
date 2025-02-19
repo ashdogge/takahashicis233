@@ -4,63 +4,66 @@ namespace App\Policies;
 
 use App\Models\Product;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
+use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ProductPolicy
 {
+    //                         guest user  admin
+// see public products 	        yes	 yes	yes
+// paginated links	            no	 yes	yes
+// search	                    no	 yes	yes
+// access admin	                no	 no	    yes
+// create, edit, and delete	    no	 no	    yes
     /**
-     * Determine whether the user can view any models.
+     * Determine whether the user can view products.
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
-     * Determine whether the user can view the model.
+     * Determine whether the user can view product.
      */
-    public function view(User $user, Product $product): bool
+    public function view(User $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
-     * Determine whether the user can create models.
+     * Determine whether the user can view paginated products.
      */
-    public function create(User $user): bool
+    public function paginate(User $user): bool
     {
-        return false;
+        //Authenticated users and admins
+        return isset($user);
     }
-
     /**
-     * Determine whether the user can update the model.
+     * Determine whether the user can use search.
      */
-    public function update(User $user, Product $product): bool
+    public function search(User $user): bool
     {
-        return false;
+        //Authenticated users & admins
+        return isset($user);
     }
-
     /**
-     * Determine whether the user can delete the model.
+     * Determine whether the user can view products.
      */
-    public function delete(User $user, Product $product): bool
+    public function accessAdmin(User $user): bool
     {
-        return false;
+        //Return true if user is authenticated and admin
+        return isset($user) && $user->role === 'administrator';
     }
-
     /**
-     * Determine whether the user can restore the model.
+     * Determine whether the user can view products.
      */
-    public function restore(User $user, Product $product): bool
+    public function manage(User $user): bool
     {
-        return false;
+        //Return true if user is authenticated and admin
+        return $user->role === 'administrator';
     }
-
     /**
-     * Determine whether the user can permanently delete the model.
+     * Determine whether the user can view products.
      */
-    public function forceDelete(User $user, Product $product): bool
-    {
-        return false;
-    }
+
 }

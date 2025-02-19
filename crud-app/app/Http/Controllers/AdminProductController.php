@@ -5,15 +5,22 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use app\Policies\ProductPolicy;
+use Illuminate\Auth\Access\HandlesAuthorization;
 
 class AdminProductController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::search(request('search'))->paginate(12);
+        //Check that user can access admin
+        if ($request->user()->cannot('accessAdmin', Product::class)) {
+            return redirect()->route('products.index')->with('error', "You don't have permission to enter the Admin Zone.");
+        }
+        ;
+        $products = Product::search(request('search'))->paginate(32);
         return view('admin.products.index', ['products' => $products]);
 
     }
@@ -29,8 +36,12 @@ class AdminProductController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
+        if ($request->user()->cannot('manage', Product::class)) {
+            return redirect()->route('products.index')->with('error', "You don't have permission to Create.");
+        }
+        ;
         $product = new Product();
         return view("admin.products.create", ['product' => $product]);
     }
@@ -44,7 +55,10 @@ class AdminProductController extends Controller
         //create a new product with valid data
 
         //If invalid, redirect back to the form with errors
-
+        if ($request->user()->cannot('manage', Product::class)) {
+            return redirect()->route('products.index')->with('error', "You don't have permission to Create.");
+        }
+        ;
 
         //if valid
         //create new product
@@ -59,8 +73,12 @@ class AdminProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $id, Request $request)
     {
+        if ($request->user()->cannot('manage', Product::class)) {
+            return redirect()->route('products.index')->with('error', "You don't have permission to enter the Admin Zone.");
+        }
+        ;
         $product = Product::find($id);
         return view("admin.products.show", compact("product"));
 
@@ -70,8 +88,12 @@ class AdminProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Product $product)
+    public function edit(Product $product, Request $request)
     {
+        if ($request->user()->cannot('manage', Product::class)) {
+            return redirect()->route('products.index')->with('error', "You don't have permission to Edit.");
+        }
+        ;
         return view('admin.products.edit', ['product' => $product]);
     }
 
@@ -80,6 +102,12 @@ class AdminProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
+
+        if ($request->user()->cannot('manage', Product::class)) {
+            return redirect()->route('products.index')->with('error', "You don't have permission to Update.");
+        }
+        ;
+
         $product->update($this->validateData($request));
 
         return redirect()->route('admin.products.index')->with('success', 'Product updated successfully!');
@@ -89,8 +117,13 @@ class AdminProductController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request, string $id)
     {
+        if ($request->user()->cannot('manage', Product::class)) {
+            return redirect()->route('products.index')->with('error', "You don't have permission to delete.");
+        }
+        ;
+
         $product = Product::find($id);
         $product->delete();
 

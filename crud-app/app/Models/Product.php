@@ -24,6 +24,7 @@ class Product extends Model
     // ->paginate(12);
     public static function search($search)
     {
+
         return self::where('name', 'like', "%$search%")
             ->orWhere('item_number', $search);
     }
