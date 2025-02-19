@@ -26,6 +26,7 @@ class Product extends Model
     {
 
         return self::where('name', 'like', "%$search%")
-            ->orWhere('item_number', $search);
+            ->orWhere('item_number', $search)
+            ->orWhere('description', 'like', "%$search%");
     }
 }
