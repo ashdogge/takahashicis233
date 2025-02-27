@@ -9,7 +9,7 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): View
     { {
             if (!auth()->check()) {
                 // Load unpaginated for guest

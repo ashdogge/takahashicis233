@@ -12,9 +12,7 @@ class ProductsGet extends Controller
      */
     public function __invoke(Request $request)
     {
-        $sortBy = $request->query('sortBy') ?? 'name';
-        $direction = $request->query('direction') ?? 'asc';
-        $products = Product::orderBy($sortBy, $direction)->get();
+        $products = Product::get();
         return response()->json(['products' => $products], 200);
     }
 }
