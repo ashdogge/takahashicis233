@@ -13,12 +13,14 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
+//CRUD actions
+Route::get('/products', ProductsGet::class);
+Route::get('/products/{id}', ProductGet::class);
+Route::delete('/products/{id}', ProductDelete::class);
+Route::post('/products', ProductPost::class);
+Route::put('/products', ProductPut::class);
 
-Route::get('/products', ProductsGet::class);
-Route::get('/products/{id}', ProductsGet::class);
-Route::get('/products', ProductsGet::class);
-Route::get('/products', ProductsGet::class);
-Route::get('/products', ProductsGet::class);
+//Search
 Route::get('/search', SearchProductsGet::class);
 
 
