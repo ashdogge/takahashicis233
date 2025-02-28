@@ -18,7 +18,7 @@ Route::get('/products', ProductsGet::class);
 Route::get('/products/{id}', ProductGet::class);
 Route::delete('/products/{id}', ProductDelete::class);
 Route::post('/products', ProductPost::class);
-Route::put('/products', ProductPut::class);
+Route::put('/products/{id}', ProductPut::class);
 
 //Search
 Route::get('/search', SearchProductsGet::class);

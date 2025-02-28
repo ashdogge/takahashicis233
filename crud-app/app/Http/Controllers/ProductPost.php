@@ -16,7 +16,7 @@ class ProductPost extends Controller
         try {
             $data = $request->all();
             //Validate the data with new validator
-            $validatedData = ProductValidator::validate($data);
+            $validatedData = ProductValidator::validate($data, 'post');
             //Create the new product
             $product = Product::create($validatedData);
             return response()->json(['product' => $product], Response::HTTP_CREATED);
