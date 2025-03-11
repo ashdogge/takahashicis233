@@ -1,0 +1,19 @@
+.chatmsg {
+    border-style: inset;
+    border-width: 2px;
+    border-radius: 3px;
+}
+
+.chatRes {
+    background-color: #30677c2c;
+}
+
+.chatReq {
+    background-color: #275f2e2c;
+}
+.chatbox {
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 5px;
+    padding: 5px;
+}
